@@ -1,4 +1,4 @@
-import Layout from './components/Layout';
+import Layout from './hoc/Layout';
 
 import BurgerBuilder from './containers/BurgerBuilder';
 
