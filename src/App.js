@@ -1,3 +1,5 @@
+import { Route, Switch } from 'react-router-dom';
+
 import Layout from './hoc/Layout';
 
 import BurgerBuilder from './containers/BurgerBuilder';
@@ -7,9 +9,11 @@ function App() {
   return (
     <div>
       <Layout>
-        <BurgerBuilder />
+        <Switch>
+          <Route path="/checkout" component={Checkout} />
+          <Route path="/" exact component={BurgerBuilder} />
+        </Switch>
       </Layout>
-      <Checkout />
     </div>
   );
 }
