@@ -35,7 +35,6 @@ class BurgerBuilder extends Component {
         this.setState({
           ingredients: res.data,
         });
-        console.log(res.data);
       })
       .catch((err) => {
         this.setState({ error: true });

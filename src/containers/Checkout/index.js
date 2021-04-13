@@ -26,7 +26,6 @@ class Checkout extends Component {
   }
 
   checkoutCancel = () => {
-    console.log('clicked');
     this.props.history.goBack();
   };
 
