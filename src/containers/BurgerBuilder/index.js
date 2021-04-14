@@ -72,8 +72,8 @@ class BurgerBuilder extends Component {
         <Aux>
           <Burger ingredients={this.props.ing} />
           <BuildControls
-            add={this.props.increment}
-            remove={this.props.decrement}
+            add={this.props.addIngredient}
+            remove={this.props.removeIngredient}
             disabled={disabledInfo}
             price={this.props.totalPrice}
             purchasable={this.updatePurchaseState(this.props.ing)}
