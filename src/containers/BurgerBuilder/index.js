@@ -9,28 +9,20 @@ import Modal from '../../components/UI/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary';
 import Spinner from '../../components/UI/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler';
-import { addIngredient, removeIngredient } from '../../store/AC';
+import {
+  addIngredient,
+  removeIngredient,
+  initIngredients,
+} from '../../store/AC';
 
 class BurgerBuilder extends Component {
   state = {
     purchasable: false,
     purchasing: false,
-    error: false,
   };
 
   componentDidMount() {
-    // axios
-    //   .get(
-    //     'https://react-my-burger-10ca9-default-rtdb.firebaseio.com/ingredients.json'
-    //   )
-    //   .then((res) => {
-    //     this.setState({
-    //       ingredients: res.data,
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     this.setState({ error: true });
-    //   });
+    this.props.initIngredients();
   }
 
   updatePurchaseState = (ingredients) => {
@@ -56,7 +48,7 @@ class BurgerBuilder extends Component {
   };
 
   render() {
-    const { purchasing, loading, error } = this.state;
+    const { purchasing } = this.state;
     const disabledInfo = {
       ...this.props.ing,
     };
@@ -65,8 +57,11 @@ class BurgerBuilder extends Component {
     }
 
     let orderSummary = null;
-    let burger = error ? <p>Ingredients cant be loaded!</p> : <Spinner />;
-
+    let burger = this.props.error ? (
+      <p>Ingredients cant be loaded!</p>
+    ) : (
+      <Spinner />
+    );
     if (this.props.ing) {
       burger = (
         <Aux>
@@ -90,9 +85,9 @@ class BurgerBuilder extends Component {
         />
       );
     }
-    if (loading) {
-      orderSummary = <Spinner />;
-    }
+    // if (loading) {
+    //   orderSummary = <Spinner />;
+    // }
 
     return (
       <Aux>
@@ -109,9 +104,10 @@ const mapStateToProps = (state) => {
   return {
     ing: state.counter.ingredients,
     totalPrice: state.counter.totalPrice,
+    error: state.counter.error,
   };
 };
-const mapDispatchToProps = { addIngredient, removeIngredient };
+const mapDispatchToProps = { addIngredient, removeIngredient, initIngredients };
 
 export default connect(
   mapStateToProps,
