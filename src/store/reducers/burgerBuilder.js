@@ -1,4 +1,4 @@
-import * as actionTypes from '../AC/actionsType';
+import * as actionTypes from '../AC/actionTypes';
 
 const INGREDIENTS_PRICE = {
   salad: 0.4,
@@ -13,7 +13,7 @@ const initialState = {
   error: false,
 };
 
-const counter = (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_INGREDIENT:
       return {
@@ -54,4 +54,4 @@ const counter = (state = initialState, action) => {
   }
 };
 
-export default counter;
+export default reducer;

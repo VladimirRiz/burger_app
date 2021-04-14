@@ -5,6 +5,7 @@ import Button from '../../../components/UI/Button';
 import axios from '../../../axios-orders';
 import Spinner from '../../../components/UI/Spinner';
 import Input from '../../../components/UI/Input';
+import { purchaseBurger } from '../../../store/AC';
 
 class ContactData extends Component {
   state = {
@@ -76,15 +77,11 @@ class ContactData extends Component {
         validation: {},
       },
     },
-    loading: false,
     formIsValid: false,
   };
 
   orderHandler = (e) => {
     e.preventDefault();
-    this.setState({
-      loading: true,
-    });
     const formData = {};
     for (let formElement in this.state.orderForm) {
       formData[formElement] = this.state.orderForm[formElement].value;
@@ -94,21 +91,8 @@ class ContactData extends Component {
       price: this.props.totalPrice.toFixed(2),
       orderData: formData,
     };
-    axios
-      .post('/orders.json', order)
-      .then((response) => {
-        this.setState({
-          loading: false,
-          purchasing: false,
-        });
-        this.props.history.push('/');
-      })
-      .catch((err) =>
-        this.setState({
-          loading: false,
-          purchasing: false,
-        })
-      );
+
+    this.props.purchaseBurger(order);
   };
 
   checkValid(rules, value) {
@@ -152,6 +136,7 @@ class ContactData extends Component {
   };
 
   render() {
+    console.log(this.props);
     const { orderForm } = this.state;
     const formElementsArray = [];
     for (let key in orderForm) {
@@ -180,7 +165,7 @@ class ContactData extends Component {
         </Button>
       </form>
     );
-    if (this.state.loading) {
+    if (this.props.loading) {
       form = <Spinner />;
     }
     return (
@@ -194,8 +179,11 @@ class ContactData extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    totalPrice: state.totalPrice,
+    totalPrice: state.counter.totalPrice,
+    loading: state.order.loading,
   };
 };
 
-export default connect(mapStateToProps)(ContactData);
+const mapDispatchToProps = { purchaseBurger };
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactData);
