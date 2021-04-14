@@ -9,7 +9,7 @@ import Modal from '../../components/UI/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary';
 import Spinner from '../../components/UI/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler';
-import * as actionTypes from '../../store/actions';
+import { addIngredient, removeIngredient } from '../../store/AC';
 
 class BurgerBuilder extends Component {
   state = {
@@ -72,8 +72,8 @@ class BurgerBuilder extends Component {
         <Aux>
           <Burger ingredients={this.props.ing} />
           <BuildControls
-            add={this.props.onAddIngredients}
-            remove={this.props.onRemoveIngredients}
+            add={this.props.increment}
+            remove={this.props.decrement}
             disabled={disabledInfo}
             price={this.props.totalPrice}
             purchasable={this.updatePurchaseState(this.props.ing)}
@@ -107,18 +107,11 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    ing: state.ingredients,
-    totalPrice: state.totalPrice,
+    ing: state.counter.ingredients,
+    totalPrice: state.counter.totalPrice,
   };
 };
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onAddIngredients: (ingredient) =>
-      dispatch({ type: actionTypes.ADD_INGREDIENT, ingredient }),
-    onRemoveIngredients: (ingredient) =>
-      dispatch({ type: actionTypes.REMOVE_INGREDIENT, ingredient }),
-  };
-};
+const mapDispatchToProps = { addIngredient, removeIngredient };
 
 export default connect(
   mapStateToProps,
