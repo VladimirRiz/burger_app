@@ -13,6 +13,7 @@ import {
   addIngredient,
   removeIngredient,
   initIngredients,
+  purchaseInit,
 } from '../../store/AC';
 
 class BurgerBuilder extends Component {
@@ -44,6 +45,7 @@ class BurgerBuilder extends Component {
     });
   };
   purchaseHandlerContinue = () => {
+    this.props.purchaseInit();
     this.props.history.push('/checkout');
   };
 
@@ -107,7 +109,12 @@ const mapStateToProps = (state) => {
     error: state.burgerBuilder.error,
   };
 };
-const mapDispatchToProps = { addIngredient, removeIngredient, initIngredients };
+const mapDispatchToProps = {
+  addIngredient,
+  removeIngredient,
+  initIngredients,
+  purchaseInit,
+};
 
 export default connect(
   mapStateToProps,

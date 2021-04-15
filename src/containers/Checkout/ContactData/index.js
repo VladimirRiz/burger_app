@@ -11,7 +11,7 @@ class ContactData extends Component {
   state = {
     orderForm: {
       name: {
-        inputType: 'input',
+        elementType: 'input',
         elementConfig: {
           type: 'text',
           placeholder: 'Your Name',
@@ -23,24 +23,11 @@ class ContactData extends Component {
         valid: false,
         touched: false,
       },
-      email: {
-        inputType: 'input',
-        elementConfig: {
-          type: 'email',
-          placeholder: 'Your Email',
-        },
-        value: '',
-        validation: {
-          required: true,
-        },
-        valid: false,
-        touched: false,
-      },
       street: {
-        inputType: 'input',
+        elementType: 'input',
         elementConfig: {
           type: 'text',
-          placeholder: 'Your Street',
+          placeholder: 'Street',
         },
         value: '',
         validation: {
@@ -50,22 +37,50 @@ class ContactData extends Component {
         touched: false,
       },
       zipCode: {
-        inputType: 'input',
+        elementType: 'input',
         elementConfig: {
           type: 'text',
-          placeholder: 'Your Zip Code',
+          placeholder: 'ZIP Code',
         },
         value: '',
         validation: {
           required: true,
           minLength: 5,
           maxLength: 5,
+          isNumeric: true,
+        },
+        valid: false,
+        touched: false,
+      },
+      country: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'Country',
+        },
+        value: '',
+        validation: {
+          required: true,
+        },
+        valid: false,
+        touched: false,
+      },
+      email: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'email',
+          placeholder: 'Your E-Mail',
+        },
+        value: '',
+        validation: {
+          required: true,
+          isEmail: true,
         },
         valid: false,
         touched: false,
       },
       deliveryMethod: {
-        inputType: 'select',
+        elementType: 'select',
         elementConfig: {
           options: [
             { value: 'fastest', displayValue: 'Fastest' },
@@ -73,8 +88,8 @@ class ContactData extends Component {
           ],
         },
         value: 'fastest',
-        valid: true,
         validation: {},
+        valid: true,
       },
     },
     formIsValid: false,
@@ -97,16 +112,32 @@ class ContactData extends Component {
 
   checkValid(rules, value) {
     let isValid = true;
+    if (!rules) {
+      return true;
+    }
+
     if (rules.required) {
-      isValid = value.trim() !== '';
+      isValid = value.trim() !== '' && isValid;
     }
 
     if (rules.minLength) {
       isValid = value.length >= rules.minLength && isValid;
     }
+
     if (rules.maxLength) {
       isValid = value.length <= rules.maxLength && isValid;
     }
+
+    if (rules.isEmail) {
+      const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+      isValid = pattern.test(value) && isValid;
+    }
+
+    if (rules.isNumeric) {
+      const pattern = /^\d+$/;
+      isValid = pattern.test(value) && isValid;
+    }
+
     return isValid;
   }
 
@@ -126,7 +157,6 @@ class ContactData extends Component {
     updatedOrderForm[id] = updatedFormElement;
     let formIsValid = true;
     for (let element in updatedOrderForm) {
-      console.log(updatedOrderForm[element].valid);
       formIsValid = updatedOrderForm[element].valid && formIsValid;
     }
     this.setState({
