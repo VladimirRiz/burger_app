@@ -22,7 +22,7 @@ class Checkout extends Component {
       const purchasedRedirect = this.props.purchased ? (
         <Redirect to="/" />
       ) : null;
-      console.log(purchasedRedirect);
+      console.log(this.props.loading, this.props.purchased);
 
       summary = (
         <div>
@@ -47,6 +47,7 @@ const mapStateToProps = (state) => {
   return {
     ings: state.burgerBuilder.ingredients,
     purchased: state.order.purchased,
+    loading: state.order.loading,
   };
 };
 
