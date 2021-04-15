@@ -136,7 +136,6 @@ class ContactData extends Component {
   };
 
   render() {
-    console.log(this.props);
     const { orderForm } = this.state;
     const formElementsArray = [];
     for (let key in orderForm) {
@@ -179,7 +178,8 @@ class ContactData extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    totalPrice: state.counter.totalPrice,
+    ingredients: state.burgerBuilder.ingredients,
+    totalPrice: state.burgerBuilder.totalPrice,
     loading: state.order.loading,
   };
 };

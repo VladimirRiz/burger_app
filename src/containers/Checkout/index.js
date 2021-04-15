@@ -17,31 +17,30 @@ class Checkout extends Component {
   };
 
   render() {
+    console.log(this.props.ings);
     let summary = <Redirect to="/" />;
     if (this.props.ings) {
       summary = (
-        <CheckoutSummary
-          checkoutCancel={this.checkoutCancel}
-          checkoutContinue={this.checkoutContinue}
-          ingredients={this.props.ings}
-        />
+        <div>
+          <CheckoutSummary
+            checkoutCancel={this.checkoutCancel}
+            checkoutContinue={this.checkoutContinue}
+            ingredients={this.props.ings}
+          />
+          <Route
+            path={`${this.props.match.path}/contact-data`}
+            component={ContactData}
+          />
+        </div>
       );
     }
-    return (
-      <div>
-        {summary}
-        <Route
-          path={`${this.props.match.path}/contact-data`}
-          component={ContactData}
-        />
-      </div>
-    );
+    return <div>{summary}</div>;
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    ings: state.counter.ingredients,
+    ings: state.burgerBuilder.ingredients,
   };
 };
 

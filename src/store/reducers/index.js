@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import counter from './burgerBuilder';
+import burgerBuilder from './burgerBuilder';
 import order from './order';
 
 export default combineReducers({
-  counter: counter,
+  burgerBuilder: burgerBuilder,
   order: order,
 });
